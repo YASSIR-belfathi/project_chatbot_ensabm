@@ -3,7 +3,7 @@ import Logo from "../assets/FamilyCare.png";
 import google from "../assets/google.png";
 import facebook from "../assets/communication.png";
 import linkedin from "../assets/linkedin.png";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   return (
@@ -40,9 +40,14 @@ function LoginPage() {
             </div>
             <div className="w-full h-max flex flex-row justify-between text-white">
               <p className="w-max cursor-pointer">Forget Password?</p>
-              <p className="w-max cursor-pointer">
-                No Account? <span className="text-orange-500"> Create One</span>
-              </p>
+              <Link to="/SignUp">
+                <p className="w-max cursor-pointer">
+                  No Account?
+                  <span className="text-orange-500 hover:opacity-75">
+                    Create One
+                  </span>
+                </p>
+              </Link>
             </div>
             <div className="container_button_login w-full h-max mt-7">
               <button className="w-full h-max p-2 rounded-lg bg-blue-950 text-white text-[1rem] hover:bg-opacity-50">

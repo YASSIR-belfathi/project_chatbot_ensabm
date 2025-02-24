@@ -3,6 +3,7 @@ import google from "../assets/google.png";
 import facebook from "../assets/communication.png";
 import linkedin from "../assets/linkedin.png";
 import Icon from "../assets/20945077.jpg";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   return (
@@ -23,7 +24,7 @@ function SignUp() {
         </div>
         <div className="containerFormLogin mt-7 flex flex-col w-full items-center h-full justify-between">
           <div className="container_Form w-[50%] flex flex-col h-max items-center text-black">
-            <div className="container_email w-full h-max mb-[20px]">
+            <div className="container_email w-full h-max mb-[10px]">
               <input
                 type="text"
                 placeholder="User Name"
@@ -54,7 +55,11 @@ function SignUp() {
             <div className="w-full h-max flex flex-row justify-center text-white">
               <p className="w-max cursor-pointer">
                 Connected Before?
-                <span className="text-orange-500"> Sign In</span>
+                <Link to="/Login">
+                  <span className="text-orange-500 hover:opacity-75">
+                    Sign In
+                  </span>
+                </Link>
               </p>
             </div>
             <div className="container_button_login w-full h-max mt-7">
