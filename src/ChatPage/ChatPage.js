@@ -1,30 +1,9 @@
-<<<<<<< HEAD
-import "./App.css";
-import LoginPage from "./LoginPage/LoginPage";
-import SignUpPage from "./SignUpPage/SignUpPage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-function App() {
-  return (
-    <div className="App">
-      {/* <SignUpPage /> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path="/Login" element={<LoginPage />}></Route>
-          <Route path="/SignUp" element={<SignUpPage />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
-}
-=======
-// src/App.js
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import ChatArea from './components/ChatArea';
-import ChatHeader from './components/ChatHeader';
-import MessageInput from './components/MessageInput';
-import ProfileSettings from './components/ProfileSettings';
+import Sidebar from '../Components/Sidebar';
+import ChatArea from '../Components/ChatArea';
+import ChatHeader from '../Components/ChatHeader';
+import MessageInput from '../Components/MessageInput';
+import ProfileSettings from '../Components/ProfileSettings';
 import './App.css';
 
 const App = () => {
@@ -84,6 +63,3 @@ const App = () => {
     </div>
   );
 };
->>>>>>> 7cbab5d466623fa66f5d286bd5fd164fce6d8e7d
-
-export default App;

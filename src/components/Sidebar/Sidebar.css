@@ -1,0 +1,165 @@
+/* Sidebar.css */
+.sidebar {
+    position: relative; /* Ensure children z-index work */
+    display: flex;
+    flex-direction: column;
+    background-color: #1e62d0;
+    color: white;
+    width: 220px;
+    height: 100%;
+    padding: 16px 0;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+  }
+  
+  .sidebar.collapsed {
+    width: 60px;
+    /* Optionally, you can adjust padding if needed */
+    padding: 16px 0;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* When collapsed, center the header content */
+  .sidebar.collapsed .sidebar-header {
+    padding: 0 8px 16px;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+  
+  .logo-collapsed {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  /* Make sure the expand button is on top and visible */
+  .expand-button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .sidebar-menu {
+    flex-grow: 1;
+    padding: 24px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .sidebar-menu-collapsed {
+    flex-grow: 1;
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .menu-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    color: white;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .icon-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .icon {
+    margin-right: 12px;
+    font-size: 18px;
+  }
+  
+  /* When collapsed, remove the extra margin next to icons */
+  .sidebar.collapsed .icon {
+    margin-right: 0;
+  }
+  
+  .label {
+    font-size: 14px;
+  }
+  
+  .sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .profile-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+  }
+  
+  .profile-label {
+    font-size: 14px;
+  }
+  
