@@ -13,11 +13,6 @@
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "5.0.1",
-<<<<<<< HEAD
-=======
-    "styled-components": "^6.1.15",
-    "tailwindcss": "^4.0.7",
->>>>>>> 7cbab5d466623fa66f5d286bd5fd164fce6d8e7d
     "web-vitals": "^2.1.4"
   },
   "scripts": {

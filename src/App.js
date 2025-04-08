@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 import "./App.css";
 import LoginPage from "./LoginPage/LoginPage";
 import SignUpPage from "./SignUpPage/SignUpPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ChatPage from "./ChatPage/ChatPage";
 
 function App() {
   return (
@@ -12,78 +12,11 @@ function App() {
         <Routes>
           <Route path="/Login" element={<LoginPage />}></Route>
           <Route path="/SignUp" element={<SignUpPage />}></Route>
+          <Route path="/ChatPage" element={<ChatPage/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-=======
-// src/App.js
-import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import ChatArea from './components/ChatArea';
-import ChatHeader from './components/ChatHeader';
-import MessageInput from './components/MessageInput';
-import ProfileSettings from './components/ProfileSettings';
-import './App.css';
-
-const App = () => {
-  const [messages, setMessages] = useState([]);
-  const [showSettings, setShowSettings] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  const handleSendMessage = (text) => {
-    const newMessage = {
-      id: Date.now(),
-      text,
-      sender: 'user',
-      timestamp: new Date().toISOString(),
-    };
-
-    setMessages([...messages, newMessage]);
-
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse = {
-        id: Date.now() + 1,
-        text: "This is a simulated response from the chatbot.",
-        sender: 'bot',
-        timestamp: new Date().toISOString(),
-      };
-      setMessages(prevMessages => [...prevMessages, botResponse]);
-    }, 1000);
-  };
-
-  const toggleSettings = () => {
-    setShowSettings(!showSettings);
-  };
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  return (
-    <div className="app">
-      <Sidebar
-        onSettingsClick={toggleSettings}
-        isCollapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-      />
-      <div className="chat-container">
-        <ChatHeader chatTitle="Bonjour! Dans le chatbot de l'ENSA-BM" />
-        <ChatArea messages={messages} />
-        <MessageInput onSendMessage={handleSendMessage} />
-      </div>
-
-      {showSettings && (
-        <div className="settings-modal">
-          <div className="settings-modal-backdrop" onClick={toggleSettings}></div>
-          <ProfileSettings onClose={toggleSettings} />
-        </div>
-      )}
-    </div>
-  );
-};
->>>>>>> 7cbab5d466623fa66f5d286bd5fd164fce6d8e7d
 
 export default App;

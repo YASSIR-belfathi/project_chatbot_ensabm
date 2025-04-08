@@ -4,9 +4,9 @@ import ChatArea from '../Components/ChatArea';
 import ChatHeader from '../Components/ChatHeader';
 import MessageInput from '../Components/MessageInput';
 import ProfileSettings from '../Components/ProfileSettings';
-import './App.css';
+import './ChatPage.css';
 
-const App = () => {
+const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -63,3 +63,5 @@ const App = () => {
     </div>
   );
 };
+
+export default ChatPage;
