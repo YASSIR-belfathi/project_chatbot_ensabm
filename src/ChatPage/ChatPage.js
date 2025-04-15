@@ -5,8 +5,11 @@ import ChatHeader from "../components/ChatHeader/ChatHeader";
 import MessageInput from "../components/MessageInput/MessageInput";
 import ProfileSettings from "../components/ProfileSettings/ProfileSettings";
 import "./ChatPage.css";
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("access_token");
   const [messages, setMessages] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -41,26 +44,30 @@ const ChatPage = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  return (
-    <div className="app">
-      <Sidebar
-        onSettingsClick={toggleSettings}
-        isCollapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-      />
-      <div className="chat-container">
-        <ChatHeader chatTitle="Bonjour! Dans le chatbot de l'ENSA-BM" />
-        <ChatArea messages={messages} />
-        <MessageInput onSendMessage={handleSendMessage} />
-      </div>
-
-      {showSettings && (
-        <div className="settings-modal">
-          <ProfileSettings onClose={toggleSettings} />
+  if (token) {
+    return (
+      <div className="app">
+        <Sidebar
+          onSettingsClick={toggleSettings}
+          isCollapsed={sidebarCollapsed}
+          onToggleCollapse={toggleSidebar}
+        />
+        <div className="chat-container">
+          <ChatHeader chatTitle="Bonjour! Dans le chatbot de l'ENSA-BM" />
+          <ChatArea messages={messages} />
+          <MessageInput onSendMessage={handleSendMessage} />
         </div>
-      )}
-    </div>
-  );
+
+        {showSettings && (
+          <div className="settings-modal">
+            <ProfileSettings onClose={toggleSettings} />
+          </div>
+        )}
+      </div>
+    );
+  } else {
+    navigate("/Login");
+  }
 };
 
 export default ChatPage;

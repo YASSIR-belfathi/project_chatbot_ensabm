@@ -1,11 +1,14 @@
 // src/components/ProfileSettings/ProfileSettings.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileSettings.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSettings = ({ onClose }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("access_token");
+  const [userId, setUserid] = useState("");
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState("User");
   const [language, setLanguage] = useState("french");
   const [dataUser, setDataUser] = useState({
     username: "",
@@ -20,12 +23,12 @@ const ProfileSettings = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically save the settings to your state management or backend
-    console.log("Settings saved:", {
-      username,
-      language,
-      notifications,
-      darkMode,
-    });
+    // console.log("Settings saved:", {
+    //   username,
+    //   language,
+    //   notifications,
+    //   darkMode,
+    // });
     if (onClose) onClose();
   };
 
@@ -46,6 +49,38 @@ const ProfileSettings = ({ onClose }) => {
         console.log(error);
       });
   }
+
+  // async function deleteUser() {
+  //   if (token) {
+  //     axios.delete(`http://localhost:8086/login/delete/${userId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //   }
+  // }
+
+  useEffect(() => {
+    if (token) {
+      axios
+        .get("http://localhost:8086/login/userInfo", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setDataUser({
+            ...dataUser,
+            email: response.data.email,
+            username: response.data.preferred_username,
+            lastName: response.data.family_name,
+            firstName: response.data.given_name,
+          });
+          setUserid(response.data.sub);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, []);
 
   return (
     <div className="First-container-profile">
@@ -75,9 +110,9 @@ const ProfileSettings = ({ onClose }) => {
               />
               <label
                 htmlFor="hiddenFileInput"
-                className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-800 mr-2"
+                className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-800"
               >
-                choice Photo
+                {!file ? "choice photo" : file.name}
               </label>
               <input
                 type="button"
@@ -165,6 +200,7 @@ const ProfileSettings = ({ onClose }) => {
             px-3 py-2 rounded-lg bg-red-500 text-white
             cursor-pointer
             "
+              // onClick={deleteUser}
             />
           </div>
           <div className="w-max h-max my-2">
@@ -175,6 +211,10 @@ const ProfileSettings = ({ onClose }) => {
             px-3 py-2 rounded-lg bg-green-600 text-white
             cursor-pointer
             "
+              onClick={() => {
+                localStorage.removeItem("access_token");
+                navigate("/Login");
+              }}
             />
           </div>
 

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-function LoginPage({ authorization }) {
+function LoginPage() {
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -36,7 +36,7 @@ function LoginPage({ authorization }) {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          authorization(true);
+          localStorage.setItem("access_token", response.data.access_token);
           navigate("/ChatPage");
         }
       })
@@ -81,7 +81,6 @@ function LoginPage({ authorization }) {
                 className="w-full p-[14px] border-none outline-none rounded-lg"
                 onChange={(e) => {
                   setData({ ...data, password: e.target.value });
-                  console.log(data);
                 }}
               />
             </div>
