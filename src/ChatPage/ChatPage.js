@@ -56,10 +56,6 @@ const ChatPage = () => {
 
       {showSettings && (
         <div className="settings-modal">
-          <div
-            className="settings-modal-backdrop"
-            onClick={toggleSettings}
-          ></div>
           <ProfileSettings onClose={toggleSettings} />
         </div>
       )}

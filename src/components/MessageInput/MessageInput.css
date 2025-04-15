@@ -10,13 +10,18 @@
 }
 
 .message-input {
-  flex: 1;
-  height: 46px;
-  padding: 0 16px;
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 16px;
   border: none;
   border-radius: 8px;
   background-color: #f0f0f0;
   font-size: 14px;
+  line-height: 1.4;
+  overflow-y: auto;
+  resize: none; /* empêche redim manuelle */
+  box-sizing: border-box;
+  display: block;
 }
 
 .message-input:focus {

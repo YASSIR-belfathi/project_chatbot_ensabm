@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-function LoginPage() {
+function LoginPage({ authorization }) {
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -36,6 +36,7 @@ function LoginPage() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
+          authorization(true);
           navigate("/ChatPage");
         }
       })

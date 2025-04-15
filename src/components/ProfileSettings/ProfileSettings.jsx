@@ -5,6 +5,13 @@ import "./ProfileSettings.css";
 const ProfileSettings = ({ onClose }) => {
   const [username, setUsername] = useState("User");
   const [language, setLanguage] = useState("french");
+  const [dataUser, setDataUser] = useState({
+    username: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    email: "",
+  });
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -47,8 +54,52 @@ const ProfileSettings = ({ onClose }) => {
             <input
               type="text"
               id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={dataUser.username}
+              onChange={(e) => {
+                setDataUser({
+                  ...dataUser,
+                  username: e.target.value,
+                });
+              }}
+              className="form-control"
+            />
+            <label htmlFor="FirstName">FirstName</label>
+            <input
+              type="text"
+              id="FirstName"
+              value={dataUser.firstName}
+              onChange={(e) => {
+                setDataUser({
+                  ...dataUser,
+                  firstName: e.target.value,
+                });
+              }}
+              className="form-control"
+            />
+            <label htmlFor="LastName">LastName</label>
+            <input
+              type="text"
+              id="LastName"
+              value={dataUser.lastName}
+              onChange={(e) => {
+                setDataUser({
+                  ...dataUser,
+                  lastName: e.target.value,
+                });
+              }}
+              className="form-control"
+            />
+            <label htmlFor="email">email</label>
+            <input
+              type="text"
+              id="email"
+              value={dataUser.email}
+              onChange={(e) => {
+                setDataUser({
+                  ...dataUser,
+                  email: e.target.value,
+                });
+              }}
               className="form-control"
             />
           </div>
@@ -67,7 +118,18 @@ const ProfileSettings = ({ onClose }) => {
             </select>
           </div>
 
-          <div className="form-group checkbox-group">
+          <div className="w-max h-max my-2">
+            <input
+              type="submit"
+              value="Delete"
+              className="flex justify-center items-center
+            px-3 py-2 rounded-lg bg-red-500 text-white
+            cursor-pointer
+            "
+            />
+          </div>
+
+          <div className="checkbox-group flex items-center">
             <input
               type="checkbox"
               id="notifications"
@@ -77,7 +139,7 @@ const ProfileSettings = ({ onClose }) => {
             <label htmlFor="notifications">Enable Notifications</label>
           </div>
 
-          <div className="form-group checkbox-group">
+          <div className="checkbox-group flex items-center">
             <input
               type="checkbox"
               id="darkMode"
