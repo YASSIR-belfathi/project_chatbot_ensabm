@@ -3,9 +3,49 @@ import google from "../assets/google.png";
 import facebook from "../assets/communication.png";
 import linkedin from "../assets/linkedin.png";
 import Icon from "../assets/20945077.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function SignUp() {
+  const navigate = useNavigate();
+
+  const [Form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: "",
+    email: "",
+  });
+
+  function sendData() {
+    let send_value = true;
+
+    for (let element in Form) {
+      if (element.trim() === "") {
+        send_value = false;
+      }
+    }
+
+    if (send_value) {
+      axios
+        .post("http://localhost:8086/login/createUser", Form, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status === 200) {
+            navigate("/Login");
+          }
+        })
+        .catch((e) => console.log(e));
+    }
+
+    console.log(Form);
+  }
+
   return (
     <div className="bg-[#2257F7] w-full h-full flex flex-row text-white">
       <div className="container_form_login w-[60%] p-4 flex flex-col">
@@ -24,11 +64,34 @@ function SignUp() {
         </div>
         <div className="containerFormLogin mt-7 flex flex-col w-full items-center h-full justify-between">
           <div className="container_Form w-[50%] flex flex-col h-max items-center text-black">
+            <div className="container_firsName w-full h-max mb-[10px]">
+              <input
+                type="text"
+                placeholder="FistName"
+                className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setForm({ ...Form, firstName: e.target.value });
+                }}
+              />
+            </div>
+            <div className="container_lastName w-full h-max mb-[10px]">
+              <input
+                type="text"
+                placeholder="LastName"
+                className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setForm({ ...Form, lastName: e.target.value });
+                }}
+              />
+            </div>
             <div className="container_email w-full h-max mb-[10px]">
               <input
                 type="text"
                 placeholder="User Name"
                 className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setForm({ ...Form, userName: e.target.value });
+                }}
               />
             </div>
             <div className="container_password w-full h-max mb-[10px]">
@@ -36,6 +99,9 @@ function SignUp() {
                 type="email"
                 placeholder="Email"
                 className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setForm({ ...Form, email: e.target.value });
+                }}
               />
             </div>
             <div className="container_password w-full h-max mb-[10px]">
@@ -43,6 +109,9 @@ function SignUp() {
                 type="password"
                 placeholder="Password"
                 className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setForm({ ...Form, password: e.target.value });
+                }}
               />
             </div>
             <div className="container_password w-full h-max mb-[10px]">
@@ -62,8 +131,11 @@ function SignUp() {
                 </Link>
               </p>
             </div>
-            <div className="container_button_login w-full h-max mt-7">
-              <button className="w-full h-max p-2 rounded-lg bg-blue-950 text-white text-[1rem] hover:bg-opacity-50">
+            <div className="container_button_login w-full h-full my-4 flex items-center">
+              <button
+                className="w-full h-max p-2 rounded-lg bg-blue-950 text-white text-[1rem] hover:bg-opacity-50"
+                onClick={() => sendData()}
+              >
                 Sign up
               </button>
             </div>

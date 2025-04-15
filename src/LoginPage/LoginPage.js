@@ -3,9 +3,45 @@ import Logo from "../assets/FamilyCare.png";
 import google from "../assets/google.png";
 import facebook from "../assets/communication.png";
 import linkedin from "../assets/linkedin.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [token, setToken] = useState({
+    grant_type: "password",
+    client_id: "api-test",
+    username: "",
+    password: "",
+  });
+
+  const authentication = () => {
+    axios
+      .post(
+        "http://localhost:8080/realms/Project_PFA/protocol/openid-connect/token",
+        token,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          navigate("/ChatPage");
+        }
+      })
+      .catch((response) => console.log(token));
+  };
+
   return (
     <div className="bg-[#2257F7] w-full h-full flex flex-row text-white">
       <div className="container_form_login w-[60%] p-4 flex flex-col">
@@ -26,9 +62,15 @@ function LoginPage() {
           <div className="container_Form w-[50%] flex flex-col h-max items-center text-black">
             <div className="container_email w-full h-max mb-[20px]">
               <input
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="UserName"
                 className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    username: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="container_password w-full h-max mb-[10px]">
@@ -36,6 +78,10 @@ function LoginPage() {
                 type="password"
                 placeholder="Password"
                 className="w-full p-[14px] border-none outline-none rounded-lg"
+                onChange={(e) => {
+                  setData({ ...data, password: e.target.value });
+                  console.log(data);
+                }}
               />
             </div>
             <div className="w-full h-max flex flex-row justify-between text-white">
@@ -50,7 +96,17 @@ function LoginPage() {
               </Link>
             </div>
             <div className="container_button_login w-full h-max mt-7">
-              <button className="w-full h-max p-2 rounded-lg bg-blue-950 text-white text-[1rem] hover:bg-opacity-50">
+              <button
+                className="w-full h-max p-2 rounded-lg bg-blue-950 text-white text-[1rem] hover:bg-opacity-50"
+                onClick={(e) => {
+                  setToken({
+                    ...token,
+                    username: data.username,
+                    password: data.password,
+                  });
+                  authentication();
+                }}
+              >
                 Login
               </button>
             </div>

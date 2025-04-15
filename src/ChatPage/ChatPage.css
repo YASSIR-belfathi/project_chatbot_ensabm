@@ -1,83 +1,71 @@
-* {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-  }
-  
-  .App {
-    width: 100%;
-    height: 100vh;
-  }
-  /* App.css */
+.app {
+  display: flex;
+  height: 100vh; /* Fill the full viewport height */
+  background-color: #f8f9fa;
+  overflow: hidden;
+  /* border-radius: 12px; */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-height: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* The chat container now simply fills available space without shifting */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0 12px 12px 0;
+  overflow: hidden;
+}
+
+/* Removed the .chat-container.expanded rule to avoid shifting the chat area */
+
+/* Modal styles remain the same */
+.settings-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.settings-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.15); */
+}
+
+@media (max-width: 768px) {
   .app {
-    display: flex;
-    height: 100vh; /* Fill the full viewport height */
-    background-color: #f8f9fa;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    max-height: 800px;
-    margin: 0 auto;
-  }
-  
-  /* The chat container now simply fills available space without shifting */
-  .chat-container {
-    flex: 1;
-    display: flex;
     flex-direction: column;
-    background-color: white;
-    border-radius: 0 12px 12px 0;
-    overflow: hidden;
   }
-  
-  /* Removed the .chat-container.expanded rule to avoid shifting the chat area */
-  
-  /* Modal styles remain the same */
-  .settings-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+
+  .sidebar {
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    height: auto;
   }
-  
-  .settings-modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
+
+  .sidebar.collapsed {
+    height: 60px;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
   }
-  
-  @media (max-width: 768px) {
-    .app {
-      flex-direction: column;
-    }
-    
-    .sidebar {
-      width: 100%;
-      height: auto;
-    }
-    
-    .sidebar.collapsed {
-      height: 60px;
-      width: 100%;
-    }
-    
-    .chat-container {
-      border-radius: 0;
-    }
-    
-    /* For mobile, remove any negative margins */
-    .chat-container.expanded {
-      margin-left: 0;
-      margin-top: 0;
-    }
+
+  .chat-container {
+    border-radius: 0;
   }
-  
+
+  /* For mobile, remove any negative margins */
+  .chat-container.expanded {
+    margin-left: 0;
+    margin-top: 0;
+  }
+}

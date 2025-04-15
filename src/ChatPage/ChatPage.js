@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Sidebar from '../Components/Sidebar';
-import ChatArea from '../Components/ChatArea';
-import ChatHeader from '../Components/ChatHeader';
-import MessageInput from '../Components/MessageInput';
-import ProfileSettings from '../Components/ProfileSettings';
-import './ChatPage.css';
+import React, { useState } from "react";
+import Sidebar from "../Components/Sidebar";
+import ChatArea from "../Components/ChatArea";
+import ChatHeader from "../Components/ChatHeader";
+import MessageInput from "../Components/MessageInput";
+import ProfileSettings from "../Components/ProfileSettings";
+import "./ChatPage.css";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
@@ -15,7 +15,7 @@ const ChatPage = () => {
     const newMessage = {
       id: Date.now(),
       text,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date().toISOString(),
     };
 
@@ -26,10 +26,10 @@ const ChatPage = () => {
       const botResponse = {
         id: Date.now() + 1,
         text: "This is a simulated response from the chatbot.",
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date().toISOString(),
       };
-      setMessages(prevMessages => [...prevMessages, botResponse]);
+      setMessages((prevMessages) => [...prevMessages, botResponse]);
     }, 1000);
   };
 
@@ -56,7 +56,10 @@ const ChatPage = () => {
 
       {showSettings && (
         <div className="settings-modal">
-          <div className="settings-modal-backdrop" onClick={toggleSettings}></div>
+          <div
+            className="settings-modal-backdrop"
+            onClick={toggleSettings}
+          ></div>
           <ProfileSettings onClose={toggleSettings} />
         </div>
       )}
