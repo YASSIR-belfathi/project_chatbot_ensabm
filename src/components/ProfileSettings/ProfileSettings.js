@@ -1,8 +1,10 @@
 // src/components/ProfileSettings/ProfileSettings.jsx
 import React, { useState } from "react";
 import "./ProfileSettings.css";
+import axios from "axios";
 
 const ProfileSettings = ({ onClose }) => {
+  const [file, setFile] = useState(null);
   const [username, setUsername] = useState("User");
   const [language, setLanguage] = useState("french");
   const [dataUser, setDataUser] = useState({
@@ -27,6 +29,24 @@ const ProfileSettings = ({ onClose }) => {
     if (onClose) onClose();
   };
 
+  async function handleUploadFile() {
+    if (!file) return;
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    await axios
+      .post("http://localhost:5000/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className="First-container-profile">
       <div className="profile-settings-container">
@@ -44,9 +64,28 @@ const ProfileSettings = ({ onClose }) => {
                 👤
               </span>
             </div>
-            <button type="button" className="change-avatar-button">
-              Change Avatar
-            </button>
+            <div className="w-full flex items-center flex-col">
+              <input
+                type="file"
+                id="hiddenFileInput"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                }}
+              />
+              <label
+                htmlFor="hiddenFileInput"
+                className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-800 mr-2"
+              >
+                choice Photo
+              </label>
+              <input
+                type="button"
+                value="Upload"
+                className="border-blue-600 border-[1px] px-4 py-2 rounded cursor-pointer hover:bg-blue-800 hover:text-white mt-1"
+                onClick={handleUploadFile}
+              />
+            </div>
           </div>
 
           <div className="form-group">
@@ -124,6 +163,16 @@ const ProfileSettings = ({ onClose }) => {
               value="Delete"
               className="flex justify-center items-center
             px-3 py-2 rounded-lg bg-red-500 text-white
+            cursor-pointer
+            "
+            />
+          </div>
+          <div className="w-max h-max my-2">
+            <input
+              type="submit"
+              value="Se Déconnecter"
+              className="flex justify-center items-center
+            px-3 py-2 rounded-lg bg-green-600 text-white
             cursor-pointer
             "
             />

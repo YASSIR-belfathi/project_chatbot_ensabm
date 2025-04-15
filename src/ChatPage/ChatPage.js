@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Sidebar from "../Components/Sidebar";
-import ChatArea from "../Components/ChatArea";
-import ChatHeader from "../Components/ChatHeader";
-import MessageInput from "../Components/MessageInput";
-import ProfileSettings from "../Components/ProfileSettings";
+import Sidebar from "../components/Sidebar/Sidebar";
+import ChatArea from "../components/ChatArea/ChatArea";
+import ChatHeader from "../components/ChatHeader/ChatHeader";
+import MessageInput from "../components/MessageInput/MessageInput";
+import ProfileSettings from "../components/ProfileSettings/ProfileSettings";
 import "./ChatPage.css";
 
 const ChatPage = () => {

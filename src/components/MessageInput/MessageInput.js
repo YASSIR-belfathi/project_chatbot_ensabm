@@ -1,6 +1,7 @@
 // src/components/MessageInput/MessageInput.jsx
 import React, { useState } from "react";
 import "./MessageInput.css";
+import axios from "axios";
 
 const MessageInput = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
@@ -15,6 +16,21 @@ const MessageInput = ({ onSendMessage }) => {
       onSendMessage(message);
       setMessage("");
     }
+  };
+
+  const responseChat = async () => {
+    await axios
+      .post("http://localhost:8086/chat", message, {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -38,7 +54,7 @@ const MessageInput = ({ onSendMessage }) => {
           </button>
         </div>
 
-        <button type="submit" className="send-button">
+        <button type="submit" className="send-button" onClick={responseChat}>
           <span className="send-icon">➤</span>
         </button>
       </form>
