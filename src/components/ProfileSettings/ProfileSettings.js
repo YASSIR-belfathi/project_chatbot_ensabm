@@ -68,6 +68,34 @@ const ProfileSettings = ({ onClose }) => {
     }
   }
 
+  async function refreshToken() {
+    const refreshToken = localStorage.getItem("refresh_token");
+
+    const data_token = {
+      client_id: "api-test",
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    };
+
+    await axios
+      .post(
+        "http://localhost:8080/realms/Project_PFA/protocol/openid-connect/token",
+        data_token,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((response) => {
+        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async function updateUserInfo() {
     console.log(dataUser);
     if (token) {
@@ -79,7 +107,8 @@ const ProfileSettings = ({ onClose }) => {
           },
         })
         .then((response) => {
-          console.log(response);
+          refreshToken();
+          console.log(dataUser);
         })
         .catch((error) => {
           console.log(error);
@@ -156,13 +185,8 @@ const ProfileSettings = ({ onClose }) => {
               type="text"
               id="username"
               value={dataUser.userName}
-              onChange={(e) => {
-                setDataUser({
-                  ...dataUser,
-                  userName: e.target.value,
-                });
-              }}
               className="form-control"
+              readOnly
             />
             <label htmlFor="FirstName">FirstName</label>
             <input
@@ -199,6 +223,20 @@ const ProfileSettings = ({ onClose }) => {
                 setDataUser({
                   ...dataUser,
                   email: e.target.value,
+                });
+              }}
+              className="form-control"
+            />
+
+            <label htmlFor="Password">Password</label>
+            <input
+              type="text"
+              id="Password"
+              value={dataUser.password}
+              onChange={(e) => {
+                setDataUser({
+                  ...dataUser,
+                  password: e.target.value,
                 });
               }}
               className="form-control"
