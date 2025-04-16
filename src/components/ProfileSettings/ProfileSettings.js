@@ -11,7 +11,7 @@ const ProfileSettings = ({ onClose }) => {
   const [file, setFile] = useState(null);
   const [language, setLanguage] = useState("french");
   const [dataUser, setDataUser] = useState({
-    username: "",
+    userName: "",
     firstName: "",
     lastName: "",
     password: "",
@@ -50,15 +50,42 @@ const ProfileSettings = ({ onClose }) => {
       });
   }
 
-  // async function deleteUser() {
-  //   if (token) {
-  //     axios.delete(`http://localhost:8086/login/delete/${userId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //   }
-  // }
+  async function deleteUser() {
+    if (token) {
+      await axios
+        .delete(`http://localhost:8086/login/delete/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(() => {
+          localStorage.removeItem("access_token");
+          navigate("/Login");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+
+  async function updateUserInfo() {
+    console.log(dataUser);
+    if (token) {
+      await axios
+        .put(`http://localhost:8086/login/update/${userId}`, dataUser, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
 
   useEffect(() => {
     if (token) {
@@ -72,7 +99,7 @@ const ProfileSettings = ({ onClose }) => {
           setDataUser({
             ...dataUser,
             email: response.data.email,
-            username: response.data.preferred_username,
+            userName: response.data.preferred_username,
             lastName: response.data.family_name,
             firstName: response.data.given_name,
           });
@@ -128,11 +155,11 @@ const ProfileSettings = ({ onClose }) => {
             <input
               type="text"
               id="username"
-              value={dataUser.username}
+              value={dataUser.userName}
               onChange={(e) => {
                 setDataUser({
                   ...dataUser,
-                  username: e.target.value,
+                  userName: e.target.value,
                 });
               }}
               className="form-control"
@@ -200,7 +227,7 @@ const ProfileSettings = ({ onClose }) => {
             px-3 py-2 rounded-lg bg-red-500 text-white
             cursor-pointer
             "
-              // onClick={deleteUser}
+              onClick={deleteUser}
             />
           </div>
           <div className="w-max h-max my-2">
@@ -242,7 +269,11 @@ const ProfileSettings = ({ onClose }) => {
             <button type="button" className="cancel-button" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" className="save-button">
+            <button
+              type="submit"
+              className="save-button"
+              onClick={updateUserInfo}
+            >
               Save Changes
             </button>
           </div>

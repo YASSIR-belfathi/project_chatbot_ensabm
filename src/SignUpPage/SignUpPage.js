@@ -143,7 +143,7 @@ function SignUp() {
           <div className="container_SSO_icon w-[50%] flex items-center flex-col">
             <div className="w-full flex flex-row h-max items-center">
               <hr className="w-full border-[1px]" />
-              <p className="w-full flex justify-center">Or SignIn with</p>
+              <p className="w-full flex justify-center">Or SignUp with</p>
               <hr className="w-full border-[1px]" />
             </div>
             <div className="container_icons w-max h-max mt-[10px] flex flex-row gap-2">
