@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
-const path = require("path");
+// const path = require("path");
 
 const app = express();
 const PORT = 5000;
@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads/"); // Folder to save uploaded files
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.originalname);
   },
 });
 

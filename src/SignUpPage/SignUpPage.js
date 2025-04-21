@@ -18,9 +18,17 @@ function SignUp() {
     email: "",
   });
 
-  function sendData() {
-    let send_value = true;
+  const [UserData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    photo_label: "",
+    language_user: "",
+    userName: "",
+  });
 
+  async function sendData() {
+    let send_value = true;
     for (let element in Form) {
       if (element.trim() === "") {
         send_value = false;
@@ -28,14 +36,27 @@ function SignUp() {
     }
 
     if (send_value) {
-      axios
-        .post("http://localhost:8086/login/createUser", Form, {
+      await axios
+        .post("http://localhost:8086/user/create", UserData, {
           headers: {
             "Content-Type": "application/json",
           },
         })
         .then((response) => {
           console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await axios
+        .post("http://localhost:8086/login/createUser", Form, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log("Form:", response);
           if (response.status === 200) {
             navigate("/Login");
           }
@@ -71,6 +92,7 @@ function SignUp() {
                 className="w-full p-[14px] border-none outline-none rounded-lg"
                 onChange={(e) => {
                   setForm({ ...Form, firstName: e.target.value });
+                  setUserData({ ...UserData, firstName: e.target.value });
                 }}
               />
             </div>
@@ -81,6 +103,7 @@ function SignUp() {
                 className="w-full p-[14px] border-none outline-none rounded-lg"
                 onChange={(e) => {
                   setForm({ ...Form, lastName: e.target.value });
+                  setUserData({ ...UserData, lastName: e.target.value });
                 }}
               />
             </div>
@@ -91,6 +114,7 @@ function SignUp() {
                 className="w-full p-[14px] border-none outline-none rounded-lg"
                 onChange={(e) => {
                   setForm({ ...Form, userName: e.target.value });
+                  setUserData({ ...UserData, userName: e.target.value });
                 }}
               />
             </div>
@@ -101,6 +125,7 @@ function SignUp() {
                 className="w-full p-[14px] border-none outline-none rounded-lg"
                 onChange={(e) => {
                   setForm({ ...Form, email: e.target.value });
+                  setUserData({ ...UserData, email: e.target.value });
                 }}
               />
             </div>

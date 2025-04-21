@@ -36,8 +36,16 @@ function LoginPage() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          localStorage.setItem("access_token", response.data.access_token);
-          localStorage.setItem("refresh_token", response.data.refresh_token);
+          const tokenInfo = {
+            value: response.data.access_token,
+            expiresAt: Date.now() + 60 * 1000,
+          };
+          const tokenRefresh = {
+            value: response.data.refresh_token,
+            expiresAt: Date.now() + 60 * 1000 * 30,
+          };
+          localStorage.setItem("access_token", JSON.stringify(tokenInfo));
+          localStorage.setItem("refresh_token", JSON.stringify(tokenRefresh));
           navigate("/ChatPage");
         }
       })

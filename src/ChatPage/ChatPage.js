@@ -9,7 +9,15 @@ import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("access_token");
+  const token_json = localStorage.getItem("access_token");
+  let token = null;
+  let token_time = null;
+  let token_value = null;
+  if (token_json) {
+    token = JSON.parse(token_json);
+    token_time = token.expiresAt;
+    token_value = token.value;
+  }
   const [messages, setMessages] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -44,7 +52,8 @@ const ChatPage = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  if (token) {
+  if (token_value && token_time > Date.now()) {
+    console.log(token_value, token_time);
     return (
       <div className="app">
         <Sidebar

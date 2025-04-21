@@ -1,4 +1,3 @@
-// src/components/ProfileSettings/ProfileSettings.jsx
 import React, { useEffect, useState } from "react";
 import "./ProfileSettings.css";
 import axios from "axios";
@@ -6,10 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileSettings = ({ onClose }) => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("access_token");
+  const token_json = localStorage.getItem("access_token");
+  let token = null;
+  if (token_json) {
+    token = JSON.parse(token_json);
+    token = token.value;
+  }
   const [userId, setUserid] = useState("");
   const [file, setFile] = useState(null);
-  const [language, setLanguage] = useState("french");
+  // const [language, setLanguage] = useState("french");
   const [dataUser, setDataUser] = useState({
     userName: "",
     firstName: "",
@@ -19,6 +23,13 @@ const ProfileSettings = ({ onClose }) => {
   });
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [UserData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    photo_label: "",
+    language_user: "",
+    email: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +49,7 @@ const ProfileSettings = ({ onClose }) => {
 
     formData.append("file", file);
 
+    setUserData({ ...UserData, photo_label: file.name });
     await axios
       .post("http://localhost:5000/upload", formData, {
         headers: {
@@ -53,6 +65,19 @@ const ProfileSettings = ({ onClose }) => {
   async function deleteUser() {
     if (token) {
       await axios
+        .delete(`http://localhost:8086/user/delete/${dataUser.userName}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("the user is deleted");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await axios
         .delete(`http://localhost:8086/login/delete/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,6 +85,7 @@ const ProfileSettings = ({ onClose }) => {
         })
         .then(() => {
           localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
           navigate("/Login");
         })
         .catch((error) => {
@@ -69,12 +95,15 @@ const ProfileSettings = ({ onClose }) => {
   }
 
   async function refreshToken() {
-    const refreshToken = localStorage.getItem("refresh_token");
-
+    const refreshToken_json = localStorage.getItem("refresh_token");
+    let refresh_token = null;
+    if (refreshToken_json) {
+      refresh_token = refreshToken_json.value;
+    }
     const data_token = {
       client_id: "api-test",
       grant_type: "refresh_token",
-      refresh_token: refreshToken,
+      refresh_token: refresh_token,
     };
 
     await axios
@@ -88,8 +117,16 @@ const ProfileSettings = ({ onClose }) => {
         }
       )
       .then((response) => {
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("refresh_token", response.data.refresh_token);
+        const tokenInfo = {
+          value: response.data.access_token,
+          expiresAt: Date.now() + 60 * 1000,
+        };
+        const tokenRefresh = {
+          value: response.data.refresh_token,
+          expiresAt: Date.now() + 60 * 1000 * 30,
+        };
+        localStorage.setItem("access_token", JSON.stringify(tokenInfo));
+        localStorage.setItem("refresh_token", JSON.stringify(tokenRefresh));
       })
       .catch((error) => {
         console.log(error);
@@ -109,6 +146,22 @@ const ProfileSettings = ({ onClose }) => {
         .then((response) => {
           refreshToken();
           console.log(dataUser);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      await axios
+        .put(
+          `http://localhost:8086/user/update/${dataUser.userName}`,
+          UserData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("updated user data");
         })
         .catch((error) => {
           console.log(error);
@@ -133,6 +186,28 @@ const ProfileSettings = ({ onClose }) => {
             firstName: response.data.given_name,
           });
           setUserid(response.data.sub);
+          axios
+            .get(
+              `http://localhost:8086/user/search/${response.data.preferred_username}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+            .then((response) => {
+              setUserData({
+                ...UserData,
+                firstName: response.data.firstName,
+                lastName: response.data.lastName,
+                email: response.data.email,
+                language_user: response.data.language_user,
+                photo_label: response.data.photo_label,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => console.log(error));
     }
@@ -152,7 +227,10 @@ const ProfileSettings = ({ onClose }) => {
           <div className="profile-avatar-section">
             <div className="profile-avatar-large">
               <span role="img" aria-label="Profile">
-                👤
+                <img
+                  src={`http://localhost:5000/uploads/${UserData.photo_label}`}
+                  alt="en-cours"
+                />
               </span>
             </div>
             <div className="w-full flex items-center flex-col">
@@ -247,8 +325,13 @@ const ProfileSettings = ({ onClose }) => {
             <label htmlFor="language">Language</label>
             <select
               id="language"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              value={UserData.language_user}
+              onChange={(e) =>
+                setUserData({
+                  ...UserData,
+                  language_user: e.target.value,
+                })
+              }
               className="form-control"
             >
               <option value="french">French</option>
