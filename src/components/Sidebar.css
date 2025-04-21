@@ -1,0 +1,132 @@
+/* Sidebar.css */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #1e50ff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.sidebar h2 {
+  font-size: 17px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.nav-item:hover {
+  background-color: #ffffff;
+  color: black;
+  
+}
+
+.nav-icon {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  position: relative;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #ffffff;
+
+}
+
+.profile-button:hover {
+  background-color: rgba(38, 48, 65, 0.1);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  color: #3b82f6;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+}
+
+.profile-menu {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  z-index: 10;
+}
+
+.menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.menu-item:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.menu-item svg {
+  margin-right: 10px;
+  color: #3b82f6;
+}
